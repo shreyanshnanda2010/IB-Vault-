@@ -1,5 +1,8 @@
 import Link from "next/link";
 
+const repoName = "IB-Vault-";
+const withBase = (path: string) => (path === "/" ? `/${repoName}` : `/${repoName}${path}`);
+
 export default function ContactPage() {
   return (
     <main className="min-h-screen bg-[#050816] px-6 py-20 text-white">
@@ -29,7 +32,7 @@ export default function ContactPage() {
           </div>
         </div>
 
-        <Link href="/" className="mt-8 inline-flex rounded-full border border-white/10 px-4 py-2 text-sm font-medium text-slate-200 hover:bg-white/10">
+        <Link href={withBase("/")} className="mt-8 inline-flex rounded-full border border-white/10 px-4 py-2 text-sm font-medium text-slate-200 hover:bg-white/10">
           Back home
         </Link>
       </div>

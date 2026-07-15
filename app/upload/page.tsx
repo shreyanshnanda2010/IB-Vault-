@@ -5,6 +5,8 @@ import { useState } from "react";
 import { getAllSubjects } from "@/lib/papers";
 
 const OWNER_PASSCODE = "ibvault2026";
+const repoName = "IB-Vault-";
+const withBase = (path: string) => (path === "/" ? `/${repoName}` : `/${repoName}${path}`);
 
 export default function UploadPage() {
   const [topics, setTopics] = useState("");
@@ -33,7 +35,7 @@ export default function UploadPage() {
   return (
     <main className="min-h-screen bg-[#050816] px-6 py-16 text-white">
       <div className="mx-auto max-w-4xl rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur-xl">
-        <Link href="/" className="mb-6 inline-flex text-sm text-slate-400 hover:text-white">
+        <Link href={withBase("/")} className="mb-6 inline-flex text-sm text-slate-400 hover:text-white">
           ← Back to home
         </Link>
 

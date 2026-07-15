@@ -3,6 +3,9 @@
 import Link from "next/link";
 import { getAllSubjects } from "@/lib/papers";
 
+const repoName = "IB-Vault-";
+const withBase = (path: string) => (path === "/" ? `/${repoName}` : `/${repoName}${path}`);
+
 export default function SubjectGrid({ search }: { search: string }) {
   const subjects = getAllSubjects().filter((subject) => {
     const query = search.toLowerCase();
@@ -26,7 +29,7 @@ export default function SubjectGrid({ search }: { search: string }) {
               key={subject.title}
               className="group rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur-xl transition-all hover:border-violet-500/40 hover:bg-white/10"
             >
-              <Link href={`/subjects/${subject.slug}`} className="block">
+              <Link href={withBase(`/subjects/${subject.slug}`)} className="block">
                 <div
                   className={`mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-r ${subject.color}`}
                 >

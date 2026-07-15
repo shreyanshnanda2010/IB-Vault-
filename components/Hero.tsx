@@ -3,6 +3,9 @@
 import { Search } from "lucide-react";
 import Link from "next/link";
 
+const repoName = "IB-Vault-";
+const withBase = (path: string) => (path === "/" ? `/${repoName}` : `/${repoName}${path}`);
+
 export default function Hero({ search, onSearchChange }: { search: string; onSearchChange: (value: string) => void }) {
   return (
     <section className="relative mx-auto max-w-6xl px-6 py-16 text-center">
@@ -30,10 +33,10 @@ export default function Hero({ search, onSearchChange }: { search: string; onSea
       </div>
 
       <div className="mx-auto mt-8 flex max-w-3xl justify-center gap-3">
-        <Link href="/upload" className="rounded-full border border-violet-400/40 bg-violet-500/15 px-4 py-2 text-sm font-medium text-violet-200 hover:bg-violet-500/25">
+        <Link href={withBase("/upload")} className="rounded-full border border-violet-400/40 bg-violet-500/15 px-4 py-2 text-sm font-medium text-violet-200 hover:bg-violet-500/25">
           Upload papers
         </Link>
-        <Link href="/contact" className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-slate-200 hover:bg-white/10">
+        <Link href={withBase("/contact")} className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-slate-200 hover:bg-white/10">
           Want to contribute?
         </Link>
       </div>
