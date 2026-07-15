@@ -3,7 +3,10 @@ import { notFound } from "next/navigation";
 import { getAllSubjects, getSubjectBySlug } from "@/lib/papers";
 
 const repoName = "IB-Vault-";
-const withBase = (path: string) => (path === "/" ? `/${repoName}` : `/${repoName}${path}`);
+const withBase = (path: string) => {
+  const normalized = path === "/" ? "" : path.replace(/\/+$/, "");
+  return `/${repoName}${normalized}/`;
+};
 
 export function generateStaticParams() {
   return getAllSubjects().map((subject) => ({ slug: subject.slug }));

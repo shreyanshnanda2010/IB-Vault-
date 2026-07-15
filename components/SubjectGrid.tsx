@@ -4,7 +4,10 @@ import Link from "next/link";
 import { getAllSubjects } from "@/lib/papers";
 
 const repoName = "IB-Vault-";
-const withBase = (path: string) => (path === "/" ? `/${repoName}` : `/${repoName}${path}`);
+const withBase = (path: string) => {
+  const normalized = path === "/" ? "" : path.replace(/\/+$/, "");
+  return `/${repoName}${normalized}/`;
+};
 
 export default function SubjectGrid({ search }: { search: string }) {
   const subjects = getAllSubjects().filter((subject) => {

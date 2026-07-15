@@ -6,7 +6,10 @@ import { getAllSubjects } from "@/lib/papers";
 
 const OWNER_PASSCODE = "ibvault2026";
 const repoName = "IB-Vault-";
-const withBase = (path: string) => (path === "/" ? `/${repoName}` : `/${repoName}${path}`);
+const withBase = (path: string) => {
+  const normalized = path === "/" ? "" : path.replace(/\/+$/, "");
+  return `/${repoName}${normalized}/`;
+};
 
 export default function UploadPage() {
   const [topics, setTopics] = useState("");
@@ -15,6 +18,7 @@ export default function UploadPage() {
   const [selectedSubject, setSelectedSubject] = useState(getAllSubjects()[0]?.slug ?? "");
   const [selectedSection, setSelectedSection] = useState("Topic Tests");
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const handleUnlock = (event?: React.FormEvent) => {
     event?.preventDefault();
@@ -23,10 +27,16 @@ export default function UploadPage() {
     if (normalized === OWNER_PASSCODE || normalized === "ibvault" || normalized === "2026") {
       setIsOwner(true);
       setError("");
+      setSuccess("");
       return;
     }
 
     setError("That passcode doesn’t match. Try ibvault2026.");
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    setSuccess(`Your upload for ${selectedSection.toLowerCase()} in the selected subject is ready for review.`);
   };
 
   const subjects = getAllSubjects();
@@ -66,7 +76,7 @@ export default function UploadPage() {
             </button>
           </form>
         ) : (
-          <form className="mt-8 space-y-5">
+          <form onSubmit={handleSubmit} className="mt-8 space-y-5">
             <div>
               <label className="mb-2 block text-sm text-slate-300">Subject</label>
               <select
@@ -121,7 +131,8 @@ export default function UploadPage() {
               <input type="file" className="w-full rounded-2xl border border-dashed border-white/20 bg-black/20 px-4 py-6" />
             </div>
 
-            <button type="button" className="rounded-2xl bg-violet-600 px-5 py-3 font-semibold transition hover:bg-violet-500">
+            {success ? <p className="text-sm text-emerald-400">{success}</p> : null}
+            <button type="submit" className="rounded-2xl bg-violet-600 px-5 py-3 font-semibold transition hover:bg-violet-500">
               Submit for review
             </button>
           </form>
