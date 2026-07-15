@@ -4,8 +4,8 @@ const repoName = "/IB-Vault-";
 
 const nextConfig: NextConfig = {
   output: "export",
-  trailingSlash: true,
-  skipTrailingSlashRedirect: true,
+  trailingSlash: false,
+  skipTrailingSlashRedirect: false,
   images: {
     unoptimized: true,
   },
