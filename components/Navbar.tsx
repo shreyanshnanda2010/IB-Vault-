@@ -9,10 +9,10 @@ export default function Navbar() {
         </Link>
 
         <div className="flex gap-3">
-          <Link href="/upload" className="rounded-xl border border-violet-400/40 bg-violet-500/15 px-5 py-2 font-medium text-violet-200 transition hover:bg-violet-500/25">
+          <Link href="/upload/" className="rounded-xl border border-violet-400/40 bg-violet-500/15 px-5 py-2 font-medium text-violet-200 transition hover:bg-violet-500/25">
             Upload Papers
           </Link>
-          <Link href="/contact" className="rounded-xl bg-violet-600 px-5 py-2 font-medium text-white transition hover:bg-violet-500">
+          <Link href="/contact/" className="rounded-xl bg-violet-600 px-5 py-2 font-medium text-white transition hover:bg-violet-500">
             Want to contribute?
           </Link>
         </div>
