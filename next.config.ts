@@ -1,9 +1,14 @@
 import type { NextConfig } from "next";
 
+const repoName = "IB-Vault-";
+const isProd = process.env.NODE_ENV === "production";
+
 const nextConfig: NextConfig = {
   output: "export",
-  trailingSlash: false,
-  skipTrailingSlashRedirect: false,
+  trailingSlash: true,
+  skipTrailingSlashRedirect: true,
+  basePath: isProd ? `/${repoName}` : "",
+  assetPrefix: isProd ? `/${repoName}/` : "",
   images: {
     unoptimized: true,
   },
