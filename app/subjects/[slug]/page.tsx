@@ -39,8 +39,13 @@ export default function SubjectPage({ params }: { params: { slug: string } }) {
 
               <ul className="mt-6 space-y-3">
                 {category.papers.map((paper) => (
-                  <li key={paper} className="rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-slate-200">
-                    {paper}
+                  <li key={paper.title} className="rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-slate-200">
+                    <div className="font-semibold">{paper.title}</div>
+                    {paper.topics.length > 0 ? (
+                      <div className="mt-2 text-sm text-slate-400">
+                        Topics: {paper.topics.join(" • ")}
+                      </div>
+                    ) : null}
                   </li>
                 ))}
               </ul>

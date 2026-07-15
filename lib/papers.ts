@@ -10,7 +10,10 @@ import {
 export type PaperCategory = {
   name: string;
   description: string;
-  papers: string[];
+  papers: Array<{
+    title: string;
+    topics: string[];
+  }>;
 };
 
 export type Subject = {
@@ -31,19 +34,36 @@ export const subjects: Subject[] = [
     blurb: "Core calculations, proofs and exam technique.",
     categories: [
       {
-        name: "Pure Practice",
-        description: "Algebra, calculus and functions.",
-        papers: ["Functions and Graphs", "Differentiation Drill"],
+        name: "Topic Tests",
+        description: "Short focused tests on specific topics.",
+        papers: [
+          { title: "Functions and Graphs", topics: ["Functions", "Graphs"] },
+          { title: "Differentiation Drill", topics: ["Differentiation"] },
+        ],
       },
       {
-        name: "Mixed Practice",
-        description: "Interleaved questions across topics.",
-        papers: ["Paper 1 Mixed Set", "Paper 2 Timed Review"],
+        name: "Mixed Topic Tests",
+        description: "Mixed sets combining multiple topics.",
+        papers: [
+          { title: "Paper 1 Mixed Set", topics: ["Algebra", "Calculus", "Probability"] },
+          { title: "Paper 2 Timed Review", topics: ["Functions", "Trigonometry", "Statistics"] },
+        ],
       },
       {
-        name: "Past Papers",
-        description: "Past exam-style reviews.",
-        papers: ["May 2024 SL/HL Review", "Nov 2023 Practice"],
+        name: "Mocks/Prelims",
+        description: "Full-length mock and prelim-style practice papers.",
+        papers: [
+          { title: "May 2024 Mock", topics: ["All Topics"] },
+          { title: "Nov 2023 Prelim", topics: ["All Topics"] },
+        ],
+      },
+      {
+        name: "IB Past Papers",
+        description: "Past exam-style papers for revision.",
+        papers: [
+          { title: "May 2024 SL/HL Review", topics: ["Past Paper", "Revision"] },
+          { title: "Nov 2023 Practice", topics: ["Past Paper", "Revision"] },
+        ],
       },
     ],
   },
@@ -55,14 +75,36 @@ export const subjects: Subject[] = [
     blurb: "Mechanics, electricity and data-based questions.",
     categories: [
       {
-        name: "Pure Practice",
-        description: "Definitions, derivations and problem sets.",
-        papers: ["Kinematics Coach", "Waves Practice"],
+        name: "Topic Tests",
+        description: "Focused tests on selected physics topics.",
+        papers: [
+          { title: "Kinematics Coach", topics: ["Mechanics", "Motion"] },
+          { title: "Waves Practice", topics: ["Waves", "Oscillations"] },
+        ],
       },
       {
-        name: "Mock Papers",
-        description: "Full-length timed mocks.",
-        papers: ["Mock Paper A", "Mock Paper B"],
+        name: "Mixed Topic Tests",
+        description: "Combined topics and multi-step questions.",
+        papers: [
+          { title: "Mixed Mechanics Pack", topics: ["Mechanics", "Electricity"] },
+          { title: "Data Analysis Drill", topics: ["Data", "Graphs"] },
+        ],
+      },
+      {
+        name: "Mocks/Prelims",
+        description: "Timed mock and prelim-style papers.",
+        papers: [
+          { title: "Mock Paper A", topics: ["All Topics"] },
+          { title: "Mock Paper B", topics: ["All Topics"] },
+        ],
+      },
+      {
+        name: "IB Past Papers",
+        description: "Past exam-style papers for review.",
+        papers: [
+          { title: "2024 Paper Review", topics: ["Past Paper", "Revision"] },
+          { title: "2023 Topic Pack", topics: ["Past Paper", "Revision"] },
+        ],
       },
     ],
   },
@@ -74,14 +116,36 @@ export const subjects: Subject[] = [
     blurb: "Reactions, mechanisms and calculations.",
     categories: [
       {
-        name: "Past Papers",
-        description: "Exams that focus on core content.",
-        papers: ["2024 Paper Review", "2023 Topic Pack"],
+        name: "Topic Tests",
+        description: "Focused topic-by-topic chemistry tests.",
+        papers: [
+          { title: "Bonding Drill", topics: ["Bonding", "Structure"] },
+          { title: "Rates Review", topics: ["Kinetics"] },
+        ],
       },
       {
-        name: "Mixed Practice",
-        description: "Data-based and conceptual challenge sets.",
-        papers: ["Data Analysis Pack", "Short Response Drill"],
+        name: "Mixed Topic Tests",
+        description: "Interleaved chemistry questions.",
+        papers: [
+          { title: "Data Analysis Pack", topics: ["Data", "Calculation"] },
+          { title: "Short Response Drill", topics: ["Organic", "Reactions"] },
+        ],
+      },
+      {
+        name: "Mocks/Prelims",
+        description: "Mock and prelim-style full papers.",
+        papers: [
+          { title: "Chem Mock 1", topics: ["All Topics"] },
+          { title: "Chem Mock 2", topics: ["All Topics"] },
+        ],
+      },
+      {
+        name: "IB Past Papers",
+        description: "Past papers for exam review.",
+        papers: [
+          { title: "2024 Paper Review", topics: ["Past Paper", "Revision"] },
+          { title: "2023 Topic Pack", topics: ["Past Paper", "Revision"] },
+        ],
       },
     ],
   },
@@ -93,14 +157,36 @@ export const subjects: Subject[] = [
     blurb: "Diagrams, experiments and command terms.",
     categories: [
       {
-        name: "Pure Practice",
-        description: "Topic-by-topic worksheet packs.",
-        papers: ["Cells and Membranes", "Genetics Review"],
+        name: "Topic Tests",
+        description: "Topic-focused biology tests.",
+        papers: [
+          { title: "Cells and Membranes", topics: ["Cells", "Transport"] },
+          { title: "Genetics Review", topics: ["Genetics"] },
+        ],
       },
       {
-        name: "Mock Papers",
-        description: "Longer mixed practice sessions.",
-        papers: ["Bio Mock 1", "Bio Mock 2"],
+        name: "Mixed Topic Tests",
+        description: "Mixed biology question sets.",
+        papers: [
+          { title: "Bio Mixed Pack", topics: ["Ecology", "Genetics"] },
+          { title: "Command Terms Drill", topics: ["Exam Technique"] },
+        ],
+      },
+      {
+        name: "Mocks/Prelims",
+        description: "Mock and prelim-style biology papers.",
+        papers: [
+          { title: "Bio Mock 1", topics: ["All Topics"] },
+          { title: "Bio Mock 2", topics: ["All Topics"] },
+        ],
+      },
+      {
+        name: "IB Past Papers",
+        description: "Past biology exam papers.",
+        papers: [
+          { title: "2024 Biology Review", topics: ["Past Paper", "Revision"] },
+          { title: "2023 Biology Pack", topics: ["Past Paper", "Revision"] },
+        ],
       },
     ],
   },
@@ -112,14 +198,36 @@ export const subjects: Subject[] = [
     blurb: "Graphs, essay plans and application practice.",
     categories: [
       {
-        name: "Past Papers",
-        description: "Exam-style essay and data response packs.",
-        papers: ["May 2024 Essay Pack", "Nov 2023 Data Response"],
+        name: "Topic Tests",
+        description: "Focused economics topic tests.",
+        papers: [
+          { title: "Microeconomics Drill", topics: ["Microeconomics"] },
+          { title: "Macroeconomics Review", topics: ["Macroeconomics"] },
+        ],
       },
       {
-        name: "Mixed Practice",
-        description: "Quick quizzes and application prompts.",
-        papers: ["Policy Application Set", "Graph Interpretation Drill"],
+        name: "Mixed Topic Tests",
+        description: "Mixed economics application sets.",
+        papers: [
+          { title: "Policy Application Set", topics: ["Policy", "Application"] },
+          { title: "Graph Interpretation Drill", topics: ["Graphs", "Data"] },
+        ],
+      },
+      {
+        name: "Mocks/Prelims",
+        description: "Mock papers and prelim style practice.",
+        papers: [
+          { title: "Economics Mock A", topics: ["All Topics"] },
+          { title: "Economics Mock B", topics: ["All Topics"] },
+        ],
+      },
+      {
+        name: "IB Past Papers",
+        description: "Past economics exam-style papers.",
+        papers: [
+          { title: "May 2024 Essay Pack", topics: ["Past Paper", "Revision"] },
+          { title: "Nov 2023 Data Response", topics: ["Past Paper", "Revision"] },
+        ],
       },
     ],
   },

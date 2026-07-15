@@ -1,6 +1,11 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
 
 export default function UploadPage() {
+  const [topics, setTopics] = useState("");
+
   return (
     <main className="min-h-screen bg-[#050816] px-6 py-16 text-white">
       <div className="mx-auto max-w-4xl rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur-xl">
@@ -10,7 +15,7 @@ export default function UploadPage() {
 
         <h1 className="text-3xl font-black">Upload papers</h1>
         <p className="mt-3 text-slate-400">
-          Share your own IB resources today. This screen is ready for a real upload form, PDF handling, and moderation.
+          Share your own IB resources today. Add the paper title and list the topics covered so everything is easy to browse.
         </p>
 
         <form className="mt-8 space-y-5">
@@ -22,6 +27,20 @@ export default function UploadPage() {
           <div>
             <label className="mb-2 block text-sm text-slate-300">Paper title</label>
             <input className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 outline-none" placeholder="e.g. Mock Paper 1" />
+          </div>
+
+          <div>
+            <label className="mb-2 block text-sm text-slate-300">Topics covered</label>
+            <textarea
+              value={topics}
+              onChange={(event) => setTopics(event.target.value)}
+              rows={4}
+              className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 outline-none"
+              placeholder="e.g. Functions, Graphs, Differentiation"
+            />
+            <p className="mt-2 text-sm text-slate-400">
+              Separate topics with commas so they can be shown on each paper card.
+            </p>
           </div>
 
           <div>

@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { getAllSubjects } from "@/lib/papers";
 
@@ -23,10 +22,8 @@ export default function SubjectGrid({ search }: { search: string }) {
           const Icon = subject.icon;
 
           return (
-            <motion.div
+            <div
               key={subject.title}
-              whileHover={{ y: -10, scale: 1.03 }}
-              transition={{ duration: 0.2 }}
               className="group rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur-xl transition-all hover:border-violet-500/40 hover:bg-white/10"
             >
               <Link href={`/subjects/${subject.slug}`} className="block">
@@ -46,7 +43,7 @@ export default function SubjectGrid({ search }: { search: string }) {
                   {subject.categories.map((category) => category.name).join(" • ")}
                 </p>
               </Link>
-            </motion.div>
+            </div>
           );
         })}
       </div>
