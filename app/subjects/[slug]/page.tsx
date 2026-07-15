@@ -2,12 +2,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getAllSubjects, getSubjectBySlug } from "@/lib/papers";
 
-const repoName = "IB-Vault-";
-const withBase = (path: string) => {
-  const normalized = path === "/" ? "" : path.replace(/\/+$/, "");
-  return `/${repoName}${normalized}/`;
-};
-
 export function generateStaticParams() {
   return getAllSubjects().map((subject) => ({ slug: subject.slug }));
 }
@@ -24,7 +18,7 @@ export default function SubjectPage({ params }: { params: { slug: string } }) {
   return (
     <main className="min-h-screen bg-[#050816] px-6 py-16 text-white">
       <div className="mx-auto max-w-6xl">
-        <Link href={withBase("/")} className="mb-8 inline-flex text-sm text-slate-400 hover:text-white">
+        <Link href="/" className="mb-8 inline-flex text-sm text-slate-400 hover:text-white">
           ← Back to home
         </Link>
 
