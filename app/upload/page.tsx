@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getAllSubjects } from "@/lib/papers";
 
 const OWNER_PASSCODE = "ibvault2026";
@@ -14,6 +14,22 @@ export default function UploadPage() {
   const [selectedSection, setSelectedSection] = useState("Topic Tests");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const params = new URLSearchParams(window.location.search);
+    const subject = params.get("subject");
+    const folder = params.get("folder");
+
+    if (subject) {
+      setSelectedSubject(subject);
+    }
+
+    if (folder) {
+      setSelectedSection(folder);
+    }
+  }, []);
 
   const handleUnlock = (event?: React.FormEvent) => {
     event?.preventDefault();
@@ -31,7 +47,7 @@ export default function UploadPage() {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    setSuccess(`Your upload for ${selectedSection.toLowerCase()} in the selected subject is ready for review.`);
+    setSuccess(`Your upload for ${selectedSection} in ${selectedSubject} is ready for review.`);
   };
 
   const subjects = getAllSubjects();
