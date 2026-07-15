@@ -1,6 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getSubjectBySlug } from "@/lib/papers";
+import { getAllSubjects, getSubjectBySlug } from "@/lib/papers";
+
+export function generateStaticParams() {
+  return getAllSubjects().map((subject) => ({ slug: subject.slug }));
+}
 
 export default function SubjectPage({ params }: { params: { slug: string } }) {
   const subject = getSubjectBySlug(params.slug);
