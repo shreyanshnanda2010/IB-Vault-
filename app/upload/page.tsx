@@ -1,10 +1,33 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, type FormEvent } from "react";
 import { getAllSubjects } from "@/lib/papers";
 
 const OWNER_PASSCODE = "ibvault2026";
+const STORAGE_KEY = "ibvault-uploaded-papers";
+
+type UploadedPaper = {
+  id: string;
+  title: string;
+  topics: string[];
+  fileName: string;
+  fileUrl: string;
+  subjectSlug: string;
+  categoryName: string;
+  uploadedAt: string;
+};
+
+function loadUploadedPapers(): UploadedPaper[] {
+  if (typeof window === "undefined") return [];
+
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    return raw ? (JSON.parse(raw) as UploadedPaper[]) : [];
+  } catch {
+    return [];
+  }
+}
 
 export default function UploadPage() {
   const [topics, setTopics] = useState("");
@@ -14,6 +37,8 @@ export default function UploadPage() {
   const [selectedSection, setSelectedSection] = useState("Topic Tests");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [title, setTitle] = useState("");
+  const [file, setFile] = useState<File | null>(null);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -31,7 +56,7 @@ export default function UploadPage() {
     }
   }, []);
 
-  const handleUnlock = (event?: React.FormEvent) => {
+  const handleUnlock = (event?: FormEvent) => {
     event?.preventDefault();
     const normalized = passcode.trim().toLowerCase();
 
@@ -45,13 +70,62 @@ export default function UploadPage() {
     setError("That passcode doesn’t match. Try ibvault2026.");
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    setSuccess(`Your upload for ${selectedSection} in ${selectedSubject} is ready for review.`);
+    setError("");
+
+    if (!title.trim()) {
+      setError("Please give the paper a title.");
+      return;
+    }
+
+    if (!file) {
+      setError("Please choose a PDF file to upload.");
+      return;
+    }
+
+    if (file.type !== "application/pdf") {
+      setError("Only PDF files can be uploaded here.");
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const paper: UploadedPaper = {
+        id: `${Date.now()}`,
+        title: title.trim(),
+        topics: topics
+          .split(",")
+          .map((topic) => topic.trim())
+          .filter(Boolean),
+        fileName: file.name,
+        fileUrl: reader.result as string,
+        subjectSlug: selectedSubject,
+        categoryName: selectedSection,
+        uploadedAt: new Date().toISOString(),
+      };
+
+      const existing = loadUploadedPapers();
+      const next = [paper, ...existing];
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+
+      setSuccess(`Saved “${paper.title}” to ${selectedSection} and it is now available on the subject page.`);
+      setTitle("");
+      setTopics("");
+      setFile(null);
+    };
+
+    reader.onerror = () => {
+      setError("The file could not be read. Please try another PDF.");
+    };
+
+    reader.readAsDataURL(file);
   };
 
   const subjects = getAllSubjects();
   const sections = ["Topic Tests", "Mixed Topic Tests", "Mocks/Prelims", "IB Past Papers"];
+  const selectedSubjectName = subjects.find((subject) => subject.slug === selectedSubject)?.title ?? selectedSubject;
 
   return (
     <main className="min-h-screen bg-[#050816] px-6 py-16 text-white">
@@ -120,7 +194,12 @@ export default function UploadPage() {
 
             <div>
               <label className="mb-2 block text-sm text-slate-300">Paper title</label>
-              <input className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 outline-none" placeholder="e.g. Mock Paper 1" />
+              <input
+                value={title}
+                onChange={(event) => setTitle(event.target.value)}
+                className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 outline-none"
+                placeholder="e.g. Mock Paper 1"
+              />
             </div>
 
             <div>
@@ -138,14 +217,25 @@ export default function UploadPage() {
             </div>
 
             <div>
-              <label className="mb-2 block text-sm text-slate-300">Upload file</label>
-              <input type="file" className="w-full rounded-2xl border border-dashed border-white/20 bg-black/20 px-4 py-6" />
+              <label className="mb-2 block text-sm text-slate-300">Upload PDF</label>
+              <input
+                type="file"
+                accept="application/pdf"
+                onChange={(event) => setFile(event.target.files?.[0] ?? null)}
+                className="w-full rounded-2xl border border-dashed border-white/20 bg-black/20 px-4 py-6"
+              />
             </div>
 
+            {error ? <p className="text-sm text-rose-400">{error}</p> : null}
             {success ? <p className="text-sm text-emerald-400">{success}</p> : null}
-            <button type="submit" className="rounded-2xl bg-violet-600 px-5 py-3 font-semibold transition hover:bg-violet-500">
-              Submit for review
-            </button>
+            <div className="flex flex-wrap items-center gap-3">
+              <button type="submit" className="rounded-2xl bg-violet-600 px-5 py-3 font-semibold transition hover:bg-violet-500">
+                Save PDF to this section
+              </button>
+              <Link href={`/subjects/${selectedSubject}`} className="text-sm text-slate-400 hover:text-white">
+                View {selectedSubjectName}
+              </Link>
+            </div>
           </form>
         )}
       </div>
