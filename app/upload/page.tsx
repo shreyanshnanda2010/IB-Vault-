@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { getAllSubjects } from "@/lib/papers";
 
 const OWNER_PASSCODE = "ibvault2026";
 
@@ -9,12 +10,17 @@ export default function UploadPage() {
   const [topics, setTopics] = useState("");
   const [passcode, setPasscode] = useState("");
   const [isOwner, setIsOwner] = useState(false);
+  const [selectedSubject, setSelectedSubject] = useState(getAllSubjects()[0]?.slug ?? "");
+  const [selectedSection, setSelectedSection] = useState("Topic Tests");
 
   const handleUnlock = () => {
     if (passcode === OWNER_PASSCODE) {
       setIsOwner(true);
     }
   };
+
+  const subjects = getAllSubjects();
+  const sections = ["Topic Tests", "Mixed Topic Tests", "Mocks/Prelims", "IB Past Papers"];
 
   return (
     <main className="min-h-screen bg-[#050816] px-6 py-16 text-white">
@@ -25,7 +31,7 @@ export default function UploadPage() {
 
         <h1 className="text-3xl font-black">Upload papers</h1>
         <p className="mt-3 text-slate-400">
-          This area is locked to the owner only. Enter the passcode to upload new papers.
+          This area is locked to the owner only. Enter the passcode to upload a PDF into the correct subject and section.
         </p>
 
         {!isOwner ? (
@@ -50,7 +56,32 @@ export default function UploadPage() {
           <form className="mt-8 space-y-5">
             <div>
               <label className="mb-2 block text-sm text-slate-300">Subject</label>
-              <input className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 outline-none" placeholder="e.g. Mathematics AA" />
+              <select
+                value={selectedSubject}
+                onChange={(event) => setSelectedSubject(event.target.value)}
+                className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 outline-none"
+              >
+                {subjects.map((subject) => (
+                  <option key={subject.slug} value={subject.slug}>
+                    {subject.title}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="mb-2 block text-sm text-slate-300">Section</label>
+              <select
+                value={selectedSection}
+                onChange={(event) => setSelectedSection(event.target.value)}
+                className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 outline-none"
+              >
+                {sections.map((section) => (
+                  <option key={section} value={section}>
+                    {section}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div>
